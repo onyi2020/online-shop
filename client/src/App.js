@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-
-import logo from './logo.svg';
 import Header from './components/header.jsx'
 import Footer from './components/footer.jsx'
+import Product from './components/product.jsx'
 import './App.css';
 
 class App extends Component {
@@ -44,6 +43,13 @@ render() {
     return (
       <div className="App">
         <Header/>
+        <Product
+          imageSrc="https://media.gettyimages.com/photos/abstract-network-background-picture-id836272842?s=2048x2048"
+          productName="Hair cream"
+          productDescription="Hair cream is not the best for you"
+          discount="$20"
+          price="$2500"
+        />
         <Footer/>
       </div>
     );

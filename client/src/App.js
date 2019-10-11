@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
-
-import logo from './logo.svg';
 import Header from './components/header.jsx'
 import Footer from './components/footer.jsx'
+import Product from './components/product.jsx'
 import './App.css';
 
 class App extends Component {
   state = {
-    response: '',
-    post: '',
-    responseToPost: '',
+    products: []
   };
   
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+  async componentDidMount() {
+    let products = await this.getProducts()
+    this.setState({
+      products: products['products']
+    })
   }
   
-  callApi = async () => {
-    const response = await fetch('/api/hello');
-    const body = await response.json();
+  getProducts = async () => {
+    const response = await fetch('/api/v1/products');
+    const body = response.json();
     if (response.status !== 200) throw Error(body.message);
     
     return body;
@@ -41,12 +39,24 @@ class App extends Component {
   };
   
 render() {
-    return (
-      <div className="App">
-        <Header/>
-        <Footer/>
-      </div>
-    );
+  let { products } = this.state
+  return (
+    <div className="App">
+      <Header/>
+      {
+        products.map((item) => {
+          return <Product
+            imageSrc={item.imageSrc}
+            productName={item.productName}
+            productDescription={item.productDescription}
+            discount={item.discount}
+            price={item.price}
+          />
+        })
+      }
+      <Footer/>
+    </div>
+  );
   }
 }
 
